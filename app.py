@@ -75,6 +75,11 @@ class DigiFrameApp:
                 self.next_image
             )
 
+            self.root.after(
+                60000,
+                self.refresh_images
+            )
+
         self.update_battery()
 
         self.settings_button.lift()
@@ -204,7 +209,7 @@ class DigiFrameApp:
 
     def change_brightness(self, amount):
         new_value = self.brightness_value.get() + amount
-        new_value = max(1, min(100, new_value))
+        new_value = max(10, min(100, new_value))
 
         if set_brightness_percent(new_value):
             self.brightness_value.set(new_value)
@@ -221,6 +226,24 @@ class DigiFrameApp:
                 paths.append(os.path.join(config.IMAGE_FOLDER, filename))
 
         return paths
+
+
+    def refresh_images(self):
+        new_paths = self.load_image_paths()
+
+        if config.RANDOMIZE:
+            random.shuffle(new_paths)
+
+        if new_paths:
+            self.image_paths = new_paths
+
+            if self.current_index >= len(self.image_paths):
+                self.current_index = 0
+
+        self.root.after(
+            60000,
+            self.refresh_images
+        )
 
 
     def show_current_image(self):
@@ -318,7 +341,7 @@ def get_brightness_percent():
 
 
 def set_brightness_percent(percent):
-    percent = max(1, min(100, percent))
+    percent = max(10, min(100, percent))
     value = round((percent / 100) * config.MAX_BRIGHTNESS)
 
     try:
