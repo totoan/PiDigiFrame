@@ -2,7 +2,14 @@
 
 A self-contained Raspberry Pi digital picture frame with randomized slideshow playback, battery monitoring, brightness control, and wireless image upload from a phone or computer.
 
-![PiDigiFrame](docs/photos/Frame-Front.jpg) ![PiDigiFrameBack](docs/photos/Frame-Back.jpg)
+<p align="center">
+  <img src="docs/photos/Frame-Front.jpg" alt="PiDigiFrame front" width="45%">
+  <img src="docs/photos/Frame-Back.jpg" alt="PiDigiFrame back" width="45%">
+</p>
+
+<p align="center">
+  <em>Front and rear views of the completed PiDigiFrame.</em>
+</p>
 
 ## Overview
 
@@ -70,12 +77,12 @@ PiDigiFrame/
 ├── app.py              # Main slideshow application
 ├── config.py           # Application configuration
 ├── upload_server.py    # Local web upload server
-├── assets/             # Project photos and screenshots
 ├── cad/
 │   ├── source/         # Editable CAD source files
 │   └── exports/        # Printable models
 └── docs/
-    └── hardware.md     # Hardware and enclosure documentation
+    ├── hardware.md     # Hardware and enclosure documentation
+    └── photos/         # Project photos and screenshots
 ```
 
 The slideshow photo directory itself is intentionally excluded from Git to prevent personal photographs from being included in the repository.
