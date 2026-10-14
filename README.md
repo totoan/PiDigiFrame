@@ -2,7 +2,7 @@
 
 A self-contained Raspberry Pi digital picture frame with randomized slideshow playback, battery monitoring, brightness control, and wireless image upload from a phone or computer.
 
-![PiDigiFrame](docs/images/Frame-Front.jpg) ![PiDigiFrameBack](docs/images//Frame-Back.jpg)
+![PiDigiFrame](docs/photos/Frame-Front.jpg) ![PiDigiFrameBack](docs/photos/Frame-Back.jpg)
 
 ## Overview
 
