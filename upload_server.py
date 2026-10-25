@@ -1,6 +1,6 @@
 import os
 import hashlib
-from flask import Flask, request, render_template_string
+from flask import Flask, request, render_template_string, send_from_directory, redirect, url_for
 
 import config
 
@@ -13,6 +13,14 @@ PAGE = """
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>DigiFrame Upload</title>
+    <style>
+    body {font-family: sans-serif; padding: 16px; background: #111; color: white;}
+    button {padding: 10px 16px; font-size: 16px;}
+    .gallery {display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;}
+    .image-card {background: #222; padding: 8px; border-radius: 8px;}
+    .image-card img {width: 100%; height: 180px; object-fit: cover; border-radius: 5px;}
+    .image-card button {width: 100%; margin-top: 6px;}
+</style>
 </head>
 <body style="font-family: sans-serif; padding: 20px;">
     <h2>Upload to DigiFrame</h2>
@@ -31,11 +39,25 @@ PAGE = """
 
     <p>{{ existing_images|length }} image(s)</p>
 
-    <ul>
+    <div class="gallery">
     {% for filename in existing_images %}
-        <li>{{ filename }}</li>
+        <div class="image-card">
+
+            <img
+                src="/images/{{ filename }}"
+                alt="{{ filename }}"
+            >
+
+            <form
+                action="{{ url_for('delete_image', filename=filename) }}"
+                method="POST"
+            >
+                <button type="submit">Delete</button>
+            </form>
+
+        </div>
     {% endfor %}
-    </ul>
+    </div>
 
 </body>
 </html>
@@ -126,6 +148,22 @@ def upload():
         message=message,
         existing_images=existing_images
     )
+
+
+@app.route("/images/<path:filename>")
+def image_file(filename):
+    return send_from_directory(config.IMAGE_FOLDER, filename)
+
+
+@app.route("/delete/<path:filename>", methods=["POST"])
+def delete_image(filename):
+    filename = os.path.basename(filename)
+    path = os.path.join(config.IMAGE_FOLDER, filename)
+
+    if os.path.isfile(path):
+        os.remove(path)
+
+    return redirect(url_for("upload"))
 
 
 if __name__ == "__main__":
